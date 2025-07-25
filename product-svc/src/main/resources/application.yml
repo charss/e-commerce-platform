@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: user-svc
+  datasource:
+    url: <DB URL>
+    username: <DB USERNAME>
+    password: <DB PASSWORD>
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate_ddl: false
+  properties:
+    hibernate:
+      format_sql: true
+
+server:
+  port: <PORT>
