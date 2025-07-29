@@ -5,19 +5,17 @@ import com.example.user_svc.dto.LoginRequestDto;
 import com.example.user_svc.dto.LoginResponseDto;
 import com.example.user_svc.dto.UserDto;
 import com.example.user_svc.entity.User;
-import com.example.user_svc.exception.InvalidCredentialsException;
-import com.example.user_svc.exception.UsernameAlreadyExistsException;
 import com.example.user_svc.repository.UserRepository;
 import com.example.user_svc.service.AuthService;
-import com.example.user_svc.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/auth")
