@@ -4,11 +4,13 @@ import com.example.product_svc.dto.CreateProductDto;
 import com.example.product_svc.dto.ProductDto;
 import com.example.product_svc.dto.ProductVariantDto;
 import com.example.product_svc.entity.Product;
+import com.example.product_svc.exception.ObjectNotFoundException;
 import com.example.product_svc.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -26,6 +28,14 @@ public class ProductService {
                                 ProductVariantDto::from
                         ).toList()
                 )).toList();
+    }
+
+    public List<ProductVariantDto> getAllVariantsByProduct(UUID uid) {
+        Product product = productRepo.findById(uid).orElseThrow(
+                () -> new ObjectNotFoundException("Product", uid));
+
+        return product.getVariants().stream()
+                .map(ProductVariantDto::from).toList();
     }
 
     public Product createProduct(CreateProductDto productDto) {

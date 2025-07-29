@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/v1/product/variant")
 public class ProductVariantController {
@@ -24,9 +21,9 @@ public class ProductVariantController {
     ProductVariantService productVariantService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ProductVariantDto>> getAllProductVariants(@PathVariable(value = "id") UUID id) {
-        List<ProductVariantDto> products = productVariantService.getAllVariantsByProduct(id);
-        return ResponseEntity.ok(products);
+    public ResponseEntity<ProductVariantDto> getProductVariantById(@PathVariable(value = "id") Integer id) {
+        ProductVariantDto variant = productVariantService.getProductVariantById(id);
+        return ResponseEntity.ok(variant);
     }
 
     @PostMapping

@@ -2,7 +2,6 @@ package com.example.product_svc.service;
 
 import com.example.product_svc.common.MovementType;
 import com.example.product_svc.dto.CreateProductVariantDto;
-import com.example.product_svc.dto.ProductVariantAttributeDto;
 import com.example.product_svc.dto.ProductVariantDto;
 import com.example.product_svc.dto.VariantAttributeDto;
 import com.example.product_svc.entity.Product;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductVariantService {
@@ -33,24 +31,10 @@ public class ProductVariantService {
     @Autowired
     ProductAttributeRepository productAttribRepo;
 
-    public List<ProductVariantDto> getAllVariantsByProduct(UUID uid) {
-        Product product = productRepo.findById(uid).orElseThrow(
-                () -> new ObjectNotFoundException("Product", uid));
-
-        return this.productVariantRepo.findAllByProduct(product).stream()
-                .map(response -> {
-                    List<ProductVariantAttribute> productAttribute = productVariantAttributeRepository.findAllByProductVariant(response);
-
-                    return new ProductVariantDto(
-                            response.getId(),
-                            response.getSku(),
-                            productAttribute.stream().map(productAttributeResponse -> new ProductVariantAttributeDto(
-                                    productAttributeResponse.getProductAttribute().getName(),
-                                    productAttributeResponse.getValue()
-                            )).toList(),
-                            response.getStock(),
-                            response.getPrice());
-                }).toList();
+    public ProductVariantDto getProductVariantById(Integer id) {
+        ProductVariant productVariant = productVariantRepo.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException("Product Variant", id));
+        return ProductVariantDto.from(productVariant);
     }
 
     @Transactional

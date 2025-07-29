@@ -3,9 +3,11 @@ package com.example.product_svc.dto;
 import com.example.product_svc.entity.ProductVariant;
 
 import java.util.List;
+import java.util.UUID;
 
 public record ProductVariantDto(
         Integer id,
+        UUID productId,
         String sku,
         List<ProductVariantAttributeDto> details,
         Integer stock,
@@ -21,6 +23,7 @@ public record ProductVariantDto(
 
         return new ProductVariantDto(
                 variant.getId(),
+                variant.getProduct().getUid(),
                 variant.getSku(),
                 attrs,
                 variant.getStock(),
