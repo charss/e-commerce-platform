@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: shopping-cart-svc
+  datasource:
+    url: <DB URL>
+    username: <DB USERNAME>
+    password: <DB PASSWORD>
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate_ddl: false
+  properties:
+    hibernate:
+      format_sql: true
+
+services:
+  user:
+    base-url: <BASE URL>
+  product:
+    base-url: <BASE URL>
+
+server:
+  port: <PORT>
