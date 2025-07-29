@@ -14,5 +14,9 @@ spring:
     hibernate:
       format_sql: true
 
+services:
+  shopping-cart:
+    base-url: <BASE URL>
+
 server:
   port: <PORT>
