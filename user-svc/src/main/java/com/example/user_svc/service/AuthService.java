@@ -1,5 +1,7 @@
 package com.example.user_svc.service;
 
+import com.example.user_svc.client.ShoppingCartSvcClient;
+import com.example.user_svc.dto.CreateShoppingCartDto;
 import com.example.user_svc.dto.CreateUserDto;
 import com.example.user_svc.dto.LoginRequestDto;
 import com.example.user_svc.dto.LoginResponseDto;
@@ -7,15 +9,16 @@ import com.example.user_svc.entity.User;
 import com.example.user_svc.exception.InvalidCredentialsException;
 import com.example.user_svc.exception.UsernameAlreadyExistsException;
 import com.example.user_svc.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private ShoppingCartSvcClient shoppingCartSvcClient;
 
     public LoginResponseDto login(LoginRequestDto requestDto) {
         User user = userRepo.findByUsername(requestDto.username())
@@ -31,8 +34,8 @@ public class AuthService {
         );
     }
 
+    @Transactional
     public User createUser(CreateUserDto userDto) {
-
         if (userRepo.existsByUsername(userDto.username())) {
             throw new UsernameAlreadyExistsException("Username '" + userDto.username() + "' already exists.");
         }
@@ -42,7 +45,9 @@ public class AuthService {
         user.setFirstName(userDto.firstName());
         user.setLastName(userDto.lastName());
         user.setPassword(userDto.password());
+        User saveUser = userRepo.saveAndFlush(user);
 
-        return userRepo.save(user);
+        shoppingCartSvcClient.createShoppingCart(new CreateShoppingCartDto(saveUser.getUid()));
+        return saveUser;
     }
 }

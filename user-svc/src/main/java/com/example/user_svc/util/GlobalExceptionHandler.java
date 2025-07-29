@@ -1,5 +1,6 @@
 package com.example.user_svc.util;
 
+import com.example.user_svc.exception.CreateShoppingCartException;
 import com.example.user_svc.exception.UserNotFoundException;
 import com.example.user_svc.exception.response.ErrorResponse;
 import com.example.user_svc.exception.InvalidCredentialsException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 @RestControllerAdvice
@@ -49,4 +49,9 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
     }
 
+    @ExceptionHandler(CreateShoppingCartException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public @ResponseBody ErrorResponse handleCreateCartServerError(CreateShoppingCartException ex) {
+        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+    }
 }
