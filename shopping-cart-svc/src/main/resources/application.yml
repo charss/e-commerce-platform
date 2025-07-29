@@ -21,4 +21,4 @@ services:
     base-url: <BASE URL>
 
 server:
-  port: <PORT>
+  port: 0
