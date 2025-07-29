@@ -18,7 +18,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
     @ExceptionHandler(SkuAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public @ResponseBody ErrorResponse handleUsernameExists(SkuAlreadyExistsException ex) {
+    public @ResponseBody ErrorResponse handleSkuExists(SkuAlreadyExistsException ex) {
         return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
     }
 
@@ -39,6 +39,5 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public @ResponseBody ErrorResponse handleObjectNotFoundException(ObjectNotFoundException ex) {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
-
     }
 }
