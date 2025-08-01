@@ -1,7 +1,7 @@
 package com.example.shopping_cart_svc.controller;
 
+import com.example.shared.dto.CreateShoppingCartDto;
 import com.example.shopping_cart_svc.dto.CreateCartItemDto;
-import com.example.shopping_cart_svc.dto.CreateShoppingCartDto;
 import com.example.shopping_cart_svc.dto.ShoppingCartDto;
 import com.example.shopping_cart_svc.service.ShoppingCartService;
 import jakarta.validation.Valid;

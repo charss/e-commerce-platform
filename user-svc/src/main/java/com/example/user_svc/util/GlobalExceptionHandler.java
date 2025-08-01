@@ -1,12 +1,12 @@
 package com.example.user_svc.util;
 
+import com.example.shared.exception.UserNotFoundException;
+import com.example.shared.exception.response.ErrorResponse;
+import com.example.shared.exception.response.FieldErrorDetail;
+import com.example.shared.exception.response.ValidationErrorResponse;
 import com.example.user_svc.exception.CreateShoppingCartException;
-import com.example.user_svc.exception.UserNotFoundException;
-import com.example.user_svc.exception.response.ErrorResponse;
 import com.example.user_svc.exception.InvalidCredentialsException;
 import com.example.user_svc.exception.UsernameAlreadyExistsException;
-import com.example.user_svc.exception.response.FieldErrorDetail;
-import com.example.user_svc.exception.response.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

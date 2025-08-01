@@ -2,9 +2,10 @@ package com.example.product_svc.util;
 
 import com.example.product_svc.exception.ObjectNotFoundException;
 import com.example.product_svc.exception.SkuAlreadyExistsException;
-import com.example.product_svc.exception.response.ErrorResponse;
-import com.example.product_svc.exception.response.FieldErrorDetail;
-import com.example.product_svc.exception.response.ValidationErrorResponse;
+import com.example.shared.exception.ObjectNotFoundException;
+import com.example.shared.exception.response.ErrorResponse;
+import com.example.shared.exception.response.FieldErrorDetail;
+import com.example.shared.exception.response.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

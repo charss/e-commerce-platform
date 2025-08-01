@@ -1,8 +1,7 @@
 package com.example.user_svc.controller;
 
-import com.example.user_svc.dto.UserDto;
-import com.example.user_svc.dto.UserWithIdDto;
-import com.example.user_svc.repository.UserRepository;
+import com.example.shared.dto.UserDto;
+import com.example.shared.dto.UserWithIdDto;
 import com.example.user_svc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
-    @Autowired
-    UserRepository userRepo;
     @Autowired
     UserService userService;
 

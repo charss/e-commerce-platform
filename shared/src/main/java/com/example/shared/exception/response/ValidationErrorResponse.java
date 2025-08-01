@@ -1,4 +1,4 @@
-package com.example.product_svc.exception.response;
+package com.example.shared.exception.response;
 
 import java.util.List;
 

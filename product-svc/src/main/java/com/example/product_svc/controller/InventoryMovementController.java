@@ -1,8 +1,8 @@
 package com.example.product_svc.controller;
 
-import com.example.product_svc.dto.CreateInventoryMovementDto;
 import com.example.product_svc.dto.InventoryMovementDto;
 import com.example.product_svc.service.InventoryMovementService;
+import com.example.shared.dto.CreateInventoryMovementDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

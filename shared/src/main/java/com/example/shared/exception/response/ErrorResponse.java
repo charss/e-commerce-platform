@@ -1,3 +1,3 @@
-package com.example.product_svc.exception.response;
+package com.example.shared.exception.response;
 
 public record ErrorResponse(int status, String message) { }

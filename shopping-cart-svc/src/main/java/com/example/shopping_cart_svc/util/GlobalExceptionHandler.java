@@ -1,16 +1,21 @@
 package com.example.shopping_cart_svc.util;
 
+import com.example.shared.exception.ObjectNotFoundException;
+import com.example.shared.exception.response.ErrorResponse;
+import com.example.shared.exception.response.FieldErrorDetail;
+import com.example.shared.exception.response.ValidationErrorResponse;
 import com.example.shopping_cart_svc.exception.InvalidUpsertException;
-import com.example.shopping_cart_svc.exception.ObjectNotFoundException;
 import com.example.shopping_cart_svc.exception.ProductVariantNotFoundException;
 import com.example.shopping_cart_svc.exception.UserCartAlreadyExistsException;
 import com.example.shopping_cart_svc.exception.UserCartNotFoundException;
-import com.example.shopping_cart_svc.exception.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -42,5 +47,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody ErrorResponse handleInvalidUpsertException(InvalidUpsertException ex) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ValidationErrorResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<FieldErrorDetail> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> new FieldErrorDetail(
+                        error.getField(),
+                        error.getDefaultMessage()
+                )).toList();
+        return new ValidationErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation failed", errors);
     }
 }

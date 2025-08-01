@@ -1,7 +1,10 @@
-package com.example.product_svc.dto;
+package com.example.shared.dto;
 
-import com.example.product_svc.common.MovementType;
+import com.example.shared.enums.MovementType;
+import com.example.shared.enums.SourceType;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.Optional;
 
 public record CreateInventoryMovementDto(
         @NotNull(message = "Variant Id is required")
@@ -9,5 +12,8 @@ public record CreateInventoryMovementDto(
         @NotNull(message = "Quantity is required")
         Integer quantity,
         @NotNull(message = "Movement Type is required")
-        MovementType movementType
+        MovementType movementType,
+        @NotNull(message = "Source Type is required")
+        SourceType sourceType,
+        Optional<String> sourceId
 ) { }

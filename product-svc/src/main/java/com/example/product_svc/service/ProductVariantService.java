@@ -1,8 +1,6 @@
 package com.example.product_svc.service;
 
-import com.example.product_svc.common.MovementType;
 import com.example.product_svc.dto.CreateProductVariantDto;
-import com.example.product_svc.dto.ProductVariantDto;
 import com.example.product_svc.dto.VariantAttributeDto;
 import com.example.product_svc.entity.Product;
 import com.example.product_svc.entity.ProductAttribute;
@@ -10,10 +8,14 @@ import com.example.product_svc.entity.ProductVariant;
 import com.example.product_svc.entity.ProductVariantAttribute;
 import com.example.product_svc.exception.ObjectNotFoundException;
 import com.example.product_svc.exception.SkuAlreadyExistsException;
+import com.example.product_svc.mapper.ProductVariantMapper;
 import com.example.product_svc.repository.ProductAttributeRepository;
 import com.example.product_svc.repository.ProductRepository;
 import com.example.product_svc.repository.ProductVariantAttributeRepository;
 import com.example.product_svc.repository.ProductVariantRepository;
+import com.example.shared.dto.ProductVariantBasicDto;
+import com.example.shared.enums.MovementType;
+import com.example.shared.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,14 +33,14 @@ public class ProductVariantService {
     @Autowired
     ProductAttributeRepository productAttribRepo;
 
-    public ProductVariantDto getProductVariantById(Integer id) {
+    public ProductVariantBasicDto getProductVariantById(Integer id) {
         ProductVariant productVariant = productVariantRepo.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Product Variant", id));
-        return ProductVariantDto.from(productVariant);
+        return ProductVariantMapper.toDto(productVariant);
     }
 
     @Transactional
-    public ProductVariantDto createProductVariant(CreateProductVariantDto productVariantDto) {
+    public ProductVariantBasicDto createProductVariant(CreateProductVariantDto productVariantDto) {
         if (productVariantRepo.existsBySku(productVariantDto.sku())) {
             throw new SkuAlreadyExistsException("SKU '" + productVariantDto.sku() + "' already exists.");
         }
@@ -56,7 +58,7 @@ public class ProductVariantService {
         productVariantAttributeRepository.saveAll(attributes);
 
         savedVariant.setAttributes(attributes);
-        return ProductVariantDto.from(savedVariant);
+        return ProductVariantMapper.toDto(savedVariant);
     }
 
     private ProductVariant buildVariant(CreateProductVariantDto dto, Product product) {

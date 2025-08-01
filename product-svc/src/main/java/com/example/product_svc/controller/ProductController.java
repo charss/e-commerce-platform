@@ -1,11 +1,12 @@
 package com.example.product_svc.controller;
 
 import com.example.product_svc.dto.CreateProductDto;
-import com.example.product_svc.dto.ProductDto;
-import com.example.product_svc.dto.ProductVariantDto;
 import com.example.product_svc.entity.Product;
+import com.example.product_svc.mapper.ProductVariantMapper;
 import com.example.product_svc.repository.ProductAttributeRepository;
 import com.example.product_svc.service.ProductService;
+import com.example.shared.dto.ProductDto;
+import com.example.shared.dto.ProductVariantBasicDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}/variant")
-    public ResponseEntity<List<ProductVariantDto>> getAllProductVariants(@PathVariable(value = "id") UUID id) {
-        List<ProductVariantDto> products = productService.getAllVariantsByProduct(id);
+    public ResponseEntity<List<ProductVariantBasicDto>> getAllProductVariants(@PathVariable(value = "id") UUID id) {
+        List<ProductVariantBasicDto> products = productService.getAllVariantsByProduct(id);
         return ResponseEntity.ok(products);
     }
 
@@ -48,9 +49,8 @@ public class ProductController {
                 product.getUid(),
                 product.getName(),
                 product.getDescription(),
-                product.getCategoryList(),
                 product.getVariants().stream().map(
-                        ProductVariantDto::from
+                        ProductVariantMapper::toDto
                 ).toList()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(productDto);

@@ -1,16 +1,16 @@
 package com.example.shopping_cart_svc.service;
 
+import com.example.shared.dto.CreateShoppingCartDto;
+import com.example.shared.dto.ProductVariantBasicDto;
+import com.example.shared.exception.ObjectNotFoundException;
 import com.example.shopping_cart_svc.client.ProductSvcClient;
 import com.example.shopping_cart_svc.dto.CreateCartItemDto;
-import com.example.shopping_cart_svc.dto.CreateShoppingCartDto;
-import com.example.shopping_cart_svc.dto.ProductVariantDto;
 import com.example.shopping_cart_svc.dto.ShoppingCartDto;
 import com.example.shopping_cart_svc.entity.CartItem;
 import com.example.shopping_cart_svc.entity.ShoppingCart;
 import com.example.shopping_cart_svc.exception.InvalidUpsertException;
 import com.example.shopping_cart_svc.exception.UserCartAlreadyExistsException;
 import com.example.shopping_cart_svc.exception.UserCartNotFoundException;
-import com.example.shopping_cart_svc.exception.ObjectNotFoundException;
 import com.example.shopping_cart_svc.repository.CartItemRepository;
 import com.example.shopping_cart_svc.repository.ShoppingCartRepository;
 import jakarta.transaction.Transactional;
@@ -59,11 +59,11 @@ public class ShoppingCartService {
         ShoppingCart cart = shoppingRepo.findById(cartItemDto.shoppingCartId()).orElseThrow(
                 () -> new ObjectNotFoundException("Shopping Cart", cartItemDto.shoppingCartId()));
 
-        ProductVariantDto product = productSvcClient.getProductVariantById(cartItemDto.productVariantId());
+        ProductVariantBasicDto product = productSvcClient.getProductVariantById(cartItemDto.productVariantId());
 
         if (cartItemDto.quantity() < 0) throw new InvalidUpsertException("Quantity cannot be negative");
-        if (cartItemDto.quantity() > product.quantity())
-            throw new InvalidUpsertException("Invalid upsert request. Requested quantity (" + cartItemDto.quantity() + ") exceeds available stock (" + product.quantity() + ")");
+        if (cartItemDto.quantity() > product.stock())
+            throw new InvalidUpsertException("Invalid upsert request. Requested quantity (" + cartItemDto.quantity() + ") exceeds available stock (" + product.stock() + ")");
 
 
         CartItem item = cartItemRepo.findByProductVariantIdAndShoppingCart(cartItemDto.productVariantId(), cart)

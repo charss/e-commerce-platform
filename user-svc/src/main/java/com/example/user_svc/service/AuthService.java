@@ -1,7 +1,7 @@
 package com.example.user_svc.service;
 
+import com.example.shared.dto.CreateShoppingCartDto;
 import com.example.user_svc.client.ShoppingCartSvcClient;
-import com.example.user_svc.dto.CreateShoppingCartDto;
 import com.example.user_svc.dto.CreateUserDto;
 import com.example.user_svc.dto.LoginRequestDto;
 import com.example.user_svc.dto.LoginResponseDto;

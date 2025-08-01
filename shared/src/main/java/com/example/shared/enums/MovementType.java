@@ -1,4 +1,4 @@
-package com.example.product_svc.common;
+package com.example.shared.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -6,5 +6,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public enum MovementType {
     IN,
     OUT,
-    RETURN
+    RESERVE,
+    RETURN;
+
+    public Boolean isDeduct() {
+        return this == OUT || this == RESERVE;
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.shopping_cart_svc.client;
 
+import com.example.shared.dto.UserWithIdDto;
 import com.example.shopping_cart_svc.config.UserSvcProperties;
-import com.example.shopping_cart_svc.dto.UserDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,11 +17,11 @@ public class UserSvcClient {
                 .build();
     }
 
-    public UserDto getUserById(UUID id) {
+    public UserWithIdDto getUserById(UUID id) {
         return webClient.get()
                 .uri("/v1/user/{id}", id)
                 .retrieve()
-                .bodyToMono(UserDto.class)
+                .bodyToMono(UserWithIdDto.class)
                 .block();
     }
 }

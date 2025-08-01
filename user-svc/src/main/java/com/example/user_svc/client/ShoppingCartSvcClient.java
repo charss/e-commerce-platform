@@ -1,8 +1,7 @@
 package com.example.user_svc.client;
 
+import com.example.shared.dto.CreateShoppingCartDto;
 import com.example.user_svc.config.ShoppingCartSvcProperties;
-import com.example.user_svc.dto.CreateShoppingCartDto;
-import com.example.user_svc.dto.ShoppingCartUserDto;
 import com.example.user_svc.exception.CreateShoppingCartException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class ShoppingCartSvcClient {
                 .onStatus(HttpStatusCode::is5xxServerError, response ->
                         response.bodyToMono(String.class).map(error -> new CreateShoppingCartException("Server error: " + error))
                 )
-                .bodyToMono(ShoppingCartUserDto.class)
+                .toBodilessEntity()
                 .block();
     }
 }

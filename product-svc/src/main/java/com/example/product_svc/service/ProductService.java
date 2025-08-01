@@ -1,11 +1,12 @@
 package com.example.product_svc.service;
 
 import com.example.product_svc.dto.CreateProductDto;
-import com.example.product_svc.dto.ProductDto;
-import com.example.product_svc.dto.ProductVariantDto;
 import com.example.product_svc.entity.Product;
-import com.example.product_svc.exception.ObjectNotFoundException;
+import com.example.product_svc.mapper.ProductVariantMapper;
 import com.example.product_svc.repository.ProductRepository;
+import com.example.shared.dto.ProductDto;
+import com.example.shared.dto.ProductVariantBasicDto;
+import com.example.shared.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +26,17 @@ public class ProductService {
                         product.getDescription(),
                         product.getCategoryList(),
                         product.getVariants().stream().map(
-                                ProductVariantDto::from
+                                ProductVariantMapper::toDto
                         ).toList()
                 )).toList();
     }
 
-    public List<ProductVariantDto> getAllVariantsByProduct(UUID uid) {
+    public List<ProductVariantBasicDto> getAllVariantsByProduct(UUID uid) {
         Product product = productRepo.findById(uid).orElseThrow(
                 () -> new ObjectNotFoundException("Product", uid));
 
         return product.getVariants().stream()
-                .map(ProductVariantDto::from).toList();
+                .map(ProductVariantMapper::toDto).toList();
     }
 
     public Product createProduct(CreateProductDto productDto) {

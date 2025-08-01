@@ -1,9 +1,9 @@
 package com.example.user_svc.service;
 
-import com.example.user_svc.dto.UserDto;
-import com.example.user_svc.dto.UserWithIdDto;
+import com.example.shared.dto.UserDto;
+import com.example.shared.dto.UserWithIdDto;
+import com.example.shared.exception.UserNotFoundException;
 import com.example.user_svc.entity.User;
-import com.example.user_svc.exception.UserNotFoundException;
 import com.example.user_svc.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

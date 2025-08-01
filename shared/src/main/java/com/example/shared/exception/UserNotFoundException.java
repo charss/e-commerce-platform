@@ -1,4 +1,4 @@
-package com.example.user_svc.exception;
+package com.example.shared.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

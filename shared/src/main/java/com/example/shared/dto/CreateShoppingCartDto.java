@@ -1,4 +1,4 @@
-package com.example.user_svc.dto;
+package com.example.shared.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

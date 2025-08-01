@@ -1,19 +1,13 @@
-package com.example.product_svc.dto;
+package com.example.product_svc.mapper;
 
 import com.example.product_svc.entity.ProductVariant;
+import com.example.shared.dto.ProductVariantAttributeDto;
+import com.example.shared.dto.ProductVariantBasicDto;
 
 import java.util.List;
-import java.util.UUID;
 
-public record ProductVariantDto(
-        Integer id,
-        UUID productId,
-        String sku,
-        List<ProductVariantAttributeDto> details,
-        Integer stock,
-        Double price
-) {
-    public static ProductVariantDto from(ProductVariant variant) {
+public class ProductVariantMapper {
+    public static ProductVariantBasicDto toDto(ProductVariant variant) {
         List<ProductVariantAttributeDto> attrs = variant.getAttributes().stream()
                 .map(attr -> new ProductVariantAttributeDto(
                         attr.getProductAttribute().getName(),
@@ -21,7 +15,7 @@ public record ProductVariantDto(
                 ))
                 .toList();
 
-        return new ProductVariantDto(
+        return new ProductVariantBasicDto(
                 variant.getId(),
                 variant.getProduct().getUid(),
                 variant.getSku(),

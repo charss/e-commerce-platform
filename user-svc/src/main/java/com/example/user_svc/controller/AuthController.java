@@ -1,11 +1,10 @@
 package com.example.user_svc.controller;
 
+import com.example.shared.dto.UserDto;
 import com.example.user_svc.dto.CreateUserDto;
 import com.example.user_svc.dto.LoginRequestDto;
 import com.example.user_svc.dto.LoginResponseDto;
-import com.example.user_svc.dto.UserDto;
 import com.example.user_svc.entity.User;
-import com.example.user_svc.repository.UserRepository;
 import com.example.user_svc.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
-    @Autowired
-    UserRepository userRepo;
     @Autowired
     AuthService authService;
 
