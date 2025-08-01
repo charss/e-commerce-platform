@@ -7,9 +7,14 @@ public enum MovementType {
     IN,
     OUT,
     RESERVE,
+    ORDER_CANCELLED,
     RETURN;
 
     public Boolean isDeduct() {
-        return this == OUT || this == RESERVE;
+        return this == RESERVE;
+    }
+
+    public Boolean isAdd() {
+        return this == IN || this == ORDER_CANCELLED || this == RETURN;
     }
 }
