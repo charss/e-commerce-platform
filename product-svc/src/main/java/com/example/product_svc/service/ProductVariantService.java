@@ -6,7 +6,8 @@ import com.example.product_svc.entity.Product;
 import com.example.product_svc.entity.ProductAttribute;
 import com.example.product_svc.entity.ProductVariant;
 import com.example.product_svc.entity.ProductVariantAttribute;
-import com.example.product_svc.exception.ObjectNotFoundException;
+import com.example.product_svc.exception.InvalidMovementTypeException;
+import com.example.product_svc.exception.InvalidQuantityException;
 import com.example.product_svc.exception.SkuAlreadyExistsException;
 import com.example.product_svc.mapper.ProductVariantMapper;
 import com.example.product_svc.repository.ProductAttributeRepository;
@@ -82,11 +83,22 @@ public class ProductVariantService {
     }
 
     public void updateStock(ProductVariant variant, MovementType movementType, Integer quantity) {
-        if (movementType == MovementType.OUT) {
-            variant.setStock(variant.getStock() - quantity);
-        } else {
-            variant.setStock(variant.getStock() + quantity);
+        if (quantity < 0) {
+            throw new InvalidQuantityException("Quantity cannot be negative");
         }
+
+        if (movementType.isDeduct()) {
+            if (quantity > variant.getStock()) {
+                throw new InvalidQuantityException("Invalid item " + variant.getSku() +
+                        ". Requested stock (" + quantity + ") exceeds available stock (" + variant.getStock() + ")");
+            }
+            variant.setStock(variant.getStock() - quantity);
+        } else if (movementType.isAdd())  {
+            variant.setStock(variant.getStock() + quantity);
+        } else {
+            throw new InvalidMovementTypeException("Unsupported movement type: " + movementType);
+        }
+        productVariantRepo.save(variant);
     }
 
     public void reverseStock(ProductVariant variant, MovementType movementType, Integer quantity) {

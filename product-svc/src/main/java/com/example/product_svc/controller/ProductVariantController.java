@@ -1,8 +1,8 @@
 package com.example.product_svc.controller;
 
 import com.example.product_svc.dto.CreateProductVariantDto;
-import com.example.product_svc.dto.ProductVariantDto;
 import com.example.product_svc.service.ProductVariantService;
+import com.example.shared.dto.ProductVariantBasicDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,14 +21,14 @@ public class ProductVariantController {
     ProductVariantService productVariantService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductVariantDto> getProductVariantById(@PathVariable(value = "id") Integer id) {
-        ProductVariantDto variant = productVariantService.getProductVariantById(id);
+    public ResponseEntity<ProductVariantBasicDto> getProductVariantById(@PathVariable(value = "id") Integer id) {
+        ProductVariantBasicDto variant = productVariantService.getProductVariantById(id);
         return ResponseEntity.ok(variant);
     }
 
     @PostMapping
-    public ResponseEntity<ProductVariantDto> createProductVariant(@Valid @RequestBody CreateProductVariantDto productVariantDto) {
-        ProductVariantDto variant = productVariantService.createProductVariant(productVariantDto);
+    public ResponseEntity<ProductVariantBasicDto> createProductVariant(@Valid @RequestBody CreateProductVariantDto productVariantDto) {
+        ProductVariantBasicDto variant = productVariantService.createProductVariant(productVariantDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(variant);
     }
 }

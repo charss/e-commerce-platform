@@ -24,7 +24,6 @@ public class ProductService {
                         product.getUid(),
                         product.getName(),
                         product.getDescription(),
-                        product.getCategoryList(),
                         product.getVariants().stream().map(
                                 ProductVariantMapper::toDto
                         ).toList()

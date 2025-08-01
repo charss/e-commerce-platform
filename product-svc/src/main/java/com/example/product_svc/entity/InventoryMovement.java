@@ -1,16 +1,9 @@
 package com.example.product_svc.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import com.example.shared.enums.MovementType;
+import com.example.shared.enums.SourceType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,7 +28,14 @@ public class InventoryMovement {
     private Integer quantity;
 
     @Column(nullable = false)
-    private String movementType;
+    @Enumerated(EnumType.STRING)
+    private MovementType movementType;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SourceType sourceType;
+
+    private String sourceId;
 
     @Column(name = "timestamp", nullable = false, updatable = false)
     private OffsetDateTime timestamp;
@@ -71,12 +71,28 @@ public class InventoryMovement {
         this.quantity = quantity;
     }
 
-    public String getMovementType() {
+    public MovementType getMovementType() {
         return movementType;
     }
 
-    public void setMovementType(String movementType) {
+    public void setMovementType(MovementType movementType) {
         this.movementType = movementType;
+    }
+
+    public SourceType getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(SourceType sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 
     public OffsetDateTime getTimestamp() {

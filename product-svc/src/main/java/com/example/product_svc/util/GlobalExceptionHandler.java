@@ -1,6 +1,8 @@
 package com.example.product_svc.util;
 
-import com.example.product_svc.exception.ObjectNotFoundException;
+import com.example.product_svc.exception.InvalidMovementSourceException;
+import com.example.product_svc.exception.InvalidMovementTypeException;
+import com.example.product_svc.exception.InvalidQuantityException;
 import com.example.product_svc.exception.SkuAlreadyExistsException;
 import com.example.shared.exception.ObjectNotFoundException;
 import com.example.shared.exception.response.ErrorResponse;
@@ -21,6 +23,24 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody ErrorResponse handleSkuExists(SkuAlreadyExistsException ex) {
         return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(value = InvalidQuantityException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public @ResponseBody ErrorResponse handleInvalidQuantity(InvalidQuantityException ex) {
+        return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(value = InvalidMovementSourceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ErrorResponse handleInvalidMovementSource(InvalidMovementSourceException ex) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(value = InvalidMovementTypeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ErrorResponse handleInvalidMovementType(InvalidMovementTypeException ex) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

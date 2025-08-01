@@ -2,6 +2,7 @@ package com.example.product_svc.controller;
 
 import com.example.product_svc.dto.InventoryMovementDto;
 import com.example.product_svc.service.InventoryMovementService;
+import com.example.shared.dto.BulkCreateInventoryMovementDto;
 import com.example.shared.dto.CreateInventoryMovementDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -39,14 +39,14 @@ public class InventoryMovementController {
 
     @PostMapping
     public ResponseEntity<InventoryMovementDto> createInventoryMovement(@Valid @RequestBody CreateInventoryMovementDto createDto) {
-        InventoryMovementDto movement = inventoryMovementService.createInventoryMovement(createDto);
+        InventoryMovementDto movement = inventoryMovementService.processMovement(createDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(movement);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<InventoryMovementDto> updateInventoryMovement(@PathVariable(value = "id") Integer id, @Valid @RequestBody CreateInventoryMovementDto editDto) {
-        InventoryMovementDto movement = inventoryMovementService.updateInventoryMovement(id, editDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(movement);
+    @PostMapping("bulk")
+    public ResponseEntity<Void> createBulkInventoryMovement(@Valid @RequestBody BulkCreateInventoryMovementDto bulkDto) {
+        inventoryMovementService.processBulkMovement(bulkDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{id}")
