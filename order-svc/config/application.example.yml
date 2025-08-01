@@ -14,5 +14,11 @@ spring:
     hibernate:
       format_sql: true
 
+services:
+  user:
+    base-url: <BASE URL>
+  product:
+    base-url: <BASE URL>
+
 server:
   port: 0
