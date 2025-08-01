@@ -16,6 +16,7 @@
         <module>product-svc</module>
         <module>shopping-cart-svc</module>
         <module>user-svc</module>
+        <module>notification-svc</module>
     </modules>
 
 </project>
