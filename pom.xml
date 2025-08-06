@@ -12,6 +12,7 @@
 
     <modules>
         <module>shared</module>
+        <module>common-feign-clients</module>
         <module>order-svc</module>
         <module>product-svc</module>
         <module>shopping-cart-svc</module>

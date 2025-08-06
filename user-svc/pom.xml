@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>user-svc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>user-svc</name>
 	<description>User Service for E-Commerce Platform</description>
 	<url/>
@@ -33,6 +33,8 @@
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>shared</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.shared</groupId>
 			<artifactId>common-feign-clients</artifactId>
@@ -76,7 +78,6 @@
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

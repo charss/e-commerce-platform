@@ -1,8 +1,9 @@
 #!/bin/sh
-psql -U "root" -d "ecom-platform" <<EOF
+cat <<EOF | psql -U "root" -d "ecom_platform"
 CREATE SCHEMA IF NOT EXISTS auth;
 CREATE SCHEMA IF NOT EXISTS product;
 CREATE SCHEMA IF NOT EXISTS orders;
 CREATE SCHEMA IF NOT EXISTS shopping_cart;
 CREATE SCHEMA IF NOT EXISTS notification;
+
 EOF

@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.example.shared.util.EnumUtils.listEnumValues;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = InvalidNotificationTypeException.class)

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>shopping-cart-svc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>shopping-cart-svc</name>
 	<description>User Service for E-Commerce Platform</description>
 	<url/>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>shared</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
