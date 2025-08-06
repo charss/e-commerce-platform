@@ -9,13 +9,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    generate_ddl: false
+    generate_ddl: true
   properties:
     hibernate:
       format_sql: true
 
 services:
   shopping-cart:
+    base-url: <BASE URL>
+  notification:
     base-url: <BASE URL>
 
 server:

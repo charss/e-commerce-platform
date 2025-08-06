@@ -7,6 +7,7 @@ import com.example.user_svc.entity.User;
 import com.example.user_svc.exception.CreateShoppingCartException;
 import com.example.user_svc.repository.UserRepository;
 import com.example.user_svc.service.AuthService;
+import com.shared.feign.notification.NotificationClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,8 @@ public class AuthServiceTest {
     private UserRepository userRepo;
     @Mock
     private ShoppingCartSvcClient shoppingCartSvcClient;
+    @Mock
+    private NotificationClient notifClient;
 
     @InjectMocks
     private AuthService authService;
@@ -33,6 +36,7 @@ public class AuthServiceTest {
         CreateUserDto dto = new CreateUserDto("user1", "password", "Jane", "Doe");
 
         when(userRepo.existsByUsername("user1")).thenReturn(false);
+        doNothing().when(notifClient).sendEmail(any());;
 
         User savedUser = new User();
         savedUser.setUsername("user1");

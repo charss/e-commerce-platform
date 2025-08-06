@@ -2,22 +2,23 @@ spring:
   application:
     name: notification-svc
   datasource:
-    url: <DB URL>
-    username: <DB USERNAME>
-    password: <DB PASSWORD>
+    url: jdbc:postgresql://${DB_HOST}:5432/ecom_platform
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    generate_ddl: false
+    generate_ddl: true
   properties:
     hibernate:
       format_sql: true
   mail:
-    host: <SMTP_HOST>
-    port: 0
-    username: <SMTP_USERNAME>
-    password: <SMTP_PASSWORD>
+    host: smtp-relay.brevo.com
+    port: 587
+    from: ${MAIL_FROM}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -27,5 +28,6 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+
 server:
-  port: 0
+  port: 8005

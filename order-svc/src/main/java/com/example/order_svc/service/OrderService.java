@@ -10,33 +10,37 @@ import com.example.order_svc.exception.InvalidOrderStateException;
 import com.example.order_svc.exception.OrderNotFoundException;
 import com.example.order_svc.repository.OrderItemRepository;
 import com.example.order_svc.repository.OrderRepository;
-import com.example.shared.dto.BulkCreateInventoryMovementDto;
-import com.example.shared.dto.CreateInventoryMovementDto;
-import com.example.shared.dto.ProductVariantBasicDto;
-import com.example.shared.dto.UserWithIdDto;
+import com.example.shared.dto.*;
 import com.example.shared.enums.MovementType;
+import com.example.shared.enums.NotificationType;
 import com.example.shared.enums.OrderStatus;
 import com.example.shared.enums.SourceType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shared.feign.notification.NotificationClient;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderService {
-    @Autowired
-    OrderRepository orderRepo;
-    @Autowired
-    OrderItemRepository orderItemRepo;
-    @Autowired
-    UserSvcClient userSvcClient;
-    @Autowired
-    ProductSvcClient productSvcClient;
-    @Autowired
-    OrderHistoryService orderHistoryService;
+    private final OrderRepository orderRepo;
+    private final OrderItemRepository orderItemRepo;
+    private final UserSvcClient userSvcClient;
+    private final ProductSvcClient productSvcClient;
+    private final OrderHistoryService orderHistoryService;
+    private final NotificationClient notifClient;
+
+    public OrderService(OrderRepository orderRepo, OrderItemRepository orderItemRepo,
+                        UserSvcClient userSvcClient, ProductSvcClient productSvcClient,
+                        OrderHistoryService orderHistoryService, NotificationClient notifClient ) {
+        this.orderRepo = orderRepo;
+        this.orderItemRepo = orderItemRepo;
+        this.userSvcClient = userSvcClient;
+        this.productSvcClient = productSvcClient;
+        this.orderHistoryService = orderHistoryService;
+        this.notifClient = notifClient;
+    }
 
     public List<OrderDto> getAllOrders() {
         return orderRepo.findAll().stream()
@@ -56,6 +60,8 @@ public class OrderService {
 
         Order order = new Order();
         order.setUserId(user.id());
+        order.setUserFirstName(user.firstName());
+        order.setUserLastName(user.lastName());
         order.setStatus(OrderStatus.PENDING);
         Order savedOrder = orderRepo.saveAndFlush(order);
 
@@ -142,6 +148,31 @@ public class OrderService {
         order.setStatus(OrderStatus.CONFIRMED);
         orderRepo.save(order);
         orderHistoryService.createOrderHistory(order);
+
+        List<Map<String, Object>> items = new ArrayList<>();
+        for (OrderItem item : order.getItems()) {
+            Map<String, Object> item1 = new HashMap<>();
+            item1.put("sku", item.getSku());
+            item1.put("quantity", item.getQuantity());
+            item1.put("pricePerUnit", item.getPricePerUnit());
+
+            items.add(item1);
+        }
+
+        Map<String, Object> data = Map.of(
+                "email", "ecomtestmail@yopmail.com",
+                "firstName", order.getUserFirstName(),
+                "orderId", order.getId(),
+                "orderDate", order.getOrderDate().toString(),
+                "items", items,
+                "total", order.getTotalAmount()
+        );
+
+        notifClient.sendEmail(new CreateNotificationDto(
+                NotificationType.ORDER_CONFIRMED,
+                order.getUserId(),
+                new ObjectMapper().valueToTree(data)
+        ));
         return OrderDto.from(order);
     }
 

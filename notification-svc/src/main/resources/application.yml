@@ -13,6 +13,20 @@ spring:
   properties:
     hibernate:
       format_sql: true
+   mail:
+    host: <SMTP_HOST>
+    port: 0
+    username: <SMTP_USERNAME>
+    password: <SMTP_PASSWORD>
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 server:
   port: 0

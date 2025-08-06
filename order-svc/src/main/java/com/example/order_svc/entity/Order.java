@@ -39,6 +39,12 @@ public class Order {
     @ToString.Exclude
     private List<OrderItem> items;
 
+    @Column(nullable = false)
+    private String userFirstName;
+
+    @Column(nullable = false)
+    private String userLastName;
+
     @PrePersist
     public void prePersist() {
         if (this.orderDate == null) {
@@ -92,5 +98,21 @@ public class Order {
 
     public void setItems(List<OrderItem> items) {
         this.items = items;
+    }
+
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
+    }
+
+    public String getUserLastName() {
+        return userLastName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
     }
 }

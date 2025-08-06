@@ -33,7 +33,10 @@
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>shared</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+		<dependency>
+			<groupId>com.shared</groupId>
+			<artifactId>common-feign-clients</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
