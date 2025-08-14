@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: payment-svc
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:5432/ecom_platform
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate_ddl: true
+  properties:
+    hibernate:
+      format_sql: true
+
+stripe:
+  api:
+    key: ${STRIPE_KEY}
+
+server:
+  port: 8006

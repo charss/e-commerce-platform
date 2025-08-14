@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: payment-svc
+  datasource:
+    url: <DB URL>
+    username: <DB USERNAME>
+    password: <DB PASSWORD>
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate_ddl: false
+  properties:
+    hibernate:
+      format_sql: true
+
+stripe:
+  api:
+    key: <STRIPE KEY>
+
+server:
+  port: 0

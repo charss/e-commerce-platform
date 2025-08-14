@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ecom_platform
     volumes:
-      - psql-ecom-pltfrm:/var/lib/postgresql/
+      - psql-ecom-pltfrm:/var/lib/postgresql/data
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     mem_limit: 300m
     restart: always
@@ -61,6 +61,17 @@ services:
     build: ./notification-svc
     ports:
       - "8005:8005"
+    depends_on:
+      - psql
+    env_file:
+      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_LOCATION=file:/app/config/
+  payment-svc:
+    build: ./payment-svc
+    ports:
+      - "8006:8006"
     depends_on:
       - psql
     env_file:

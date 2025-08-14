@@ -18,6 +18,7 @@
         <module>shopping-cart-svc</module>
         <module>user-svc</module>
         <module>notification-svc</module>
+        <module>payment-svc</module>
     </modules>
 
 </project>
