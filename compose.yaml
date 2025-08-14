@@ -79,6 +79,38 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CONFIG_LOCATION=file:/app/config/
+  seed:
+    image: postgres:14-alpine
+    container_name: seed
+    depends_on: 
+      - user-svc
+      - product-svc
+      - shopping-cart-svc
+      - order-svc
+      - notification-svc
+      - payment-svc
+    environment: 
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      PGPASSWORD: ${DB_PASSWORD}
+    volumes: 
+      - ./seed-template.sql:/seed.sql:ro
+    entrypoint: >
+      sh -c "
+        echo 'Waiting for PostgreSQL to be ready...';
+        until pg_isready -h psql -p 5432 -U $${DB_USERNAME}; do sleep 2; done;
+
+        echo 'Waiting for Java app migrations to finish...';
+        until psql -h psql -U $${DB_USERNAME} -d ecom_platform -tAc \"SELECT 1 FROM information_schema.tables WHERE table_schema='notification' AND table_name='template';\" | grep -q 1; do
+          echo 'Schema not ready, retrying...';
+          sleep 2;
+        done;
+
+        echo 'Schema ready, running seed...';
+        psql -h psql -U $${DB_USERNAME} -d ecom_platform -f /seed.sql;
+        echo 'Seed complete';
+      "
+    restart: "no"
 
 volumes:
   psql-ecom-pltfrm:
