@@ -30,10 +30,13 @@ public class OrderItem {
     private Integer quantity;
 
     @Column(nullable = false)
-    private Double pricePerUnit;
+    private Long unitPriceMinor;
+
+    @Column(nullable = false, length = 3)
+    private String currency;
 
     @Column(nullable = false)
-    private Double subtotal;
+    private Long subtotalMinor;
 
     public Long getId() {
         return id;
@@ -75,32 +78,41 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Double getPricePerUnit() {
-        return pricePerUnit;
+    public Long getUnitPriceMinor() {
+        return unitPriceMinor;
     }
 
-    public void setPricePerUnit(Double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
+    public void setUnitPriceMinor(Long unitPriceMinor) {
+        this.unitPriceMinor = unitPriceMinor;
     }
 
-    public Double getSubtotal() {
-        return subtotal;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setSubtotal(Double subtotal) {
-        this.subtotal = subtotal;
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Long getSubtotalMinor() {
+        return subtotalMinor;
+    }
+
+    public void setSubtotalMinor(Long subtotalMinor) {
+        this.subtotalMinor = subtotalMinor;
     }
 
     @Override
     public String toString() {
         return "OrderItem{" +
                 "id=" + id +
-                ", order=" + order.getId() +
+                ", order=" + order +
                 ", productVariantId=" + productVariantId +
                 ", sku='" + sku + '\'' +
                 ", quantity=" + quantity +
-                ", pricePerUnit=" + pricePerUnit +
-                ", subtotal=" + subtotal +
+                ", unitPriceMinor=" + unitPriceMinor +
+                ", currency='" + currency + '\'' +
+                ", subTotalMinor=" + subtotalMinor +
                 '}';
     }
 }

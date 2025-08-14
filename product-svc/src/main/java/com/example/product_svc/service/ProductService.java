@@ -5,8 +5,9 @@ import com.example.product_svc.entity.Product;
 import com.example.product_svc.mapper.ProductVariantMapper;
 import com.example.product_svc.repository.ProductRepository;
 import com.example.shared.dto.ProductDto;
-import com.example.shared.dto.ProductVariantBasicDto;
+import com.example.shared.dto.ProductVariantResponseDto;
 import com.example.shared.exception.ObjectNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +31,26 @@ public class ProductService {
                 )).toList();
     }
 
-    public List<ProductVariantBasicDto> getAllVariantsByProduct(UUID uid) {
+    public List<ProductVariantResponseDto> getAllVariantsByProduct(UUID uid) {
         Product product = productRepo.findById(uid).orElseThrow(
                 () -> new ObjectNotFoundException("Product", uid));
 
         return product.getVariants().stream()
-                .map(ProductVariantMapper::toDto).toList();
+                .map(ProductVariantMapper::toResponseDto).toList();
     }
 
-    public Product createProduct(CreateProductDto productDto) {
+    @Transactional
+    public ProductDto createProduct(CreateProductDto productDto) {
         Product product = new Product();
         product.setName(productDto.name());
         product.setDescription(productDto.description());
-        return productRepo.save(product);
+        Product savedProduct = productRepo.save(product);
+
+        return new ProductDto(
+                savedProduct.getUid(),
+                savedProduct.getName(),
+                savedProduct.getDescription(),
+                null
+        );
     }
 }

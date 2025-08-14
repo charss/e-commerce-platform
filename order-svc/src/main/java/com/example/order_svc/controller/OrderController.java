@@ -1,9 +1,6 @@
 package com.example.order_svc.controller;
 
-import com.example.order_svc.dto.CreateOrderDto;
-import com.example.order_svc.dto.OrderDto;
-import com.example.order_svc.dto.OrderTimelineDto;
-import com.example.order_svc.dto.UpdateOrderStatusDto;
+import com.example.order_svc.dto.*;
 import com.example.order_svc.service.OrderHistoryService;
 import com.example.order_svc.service.OrderService;
 import jakarta.validation.Valid;
@@ -41,8 +38,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody CreateOrderDto orderDto) {
-        OrderDto order = orderService.createOrder(orderDto);
+    public ResponseEntity<OrderResponseDto> createOrder(@Valid @RequestBody CreateOrderDto orderDto) {
+        OrderResponseDto order = orderService.createOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 

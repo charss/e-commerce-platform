@@ -28,8 +28,11 @@ public class Order {
     @Column(name = "order_date", nullable = false, updatable = false)
     private OffsetDateTime orderDate;
 
-    @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
-    private Double totalAmount;
+    @Column(nullable = false)
+    private Long totalAmountMinor;
+
+    @Column(nullable = false, length = 3)
+    private String currency;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -76,12 +79,20 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Double getTotalAmount() {
-        return totalAmount;
+    public Long getTotalAmountMinor() {
+        return totalAmountMinor;
     }
 
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalAmountMinor(Long totalAmountMinor) {
+        this.totalAmountMinor = totalAmountMinor;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public OrderStatus getStatus() {

@@ -9,5 +9,6 @@ public record ProductVariantBasicDto(
         String sku,
         List<ProductVariantAttributeDto> details,
         Integer stock,
-        Double price
+        Long unitPriceMinor,
+        String currency
 ) { }

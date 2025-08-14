@@ -46,7 +46,10 @@ public class ProductVariant {
     private Integer stock;
 
     @Column(nullable = false)
-    private Double price;
+    private Long unitPriceMinor;
+
+    @Column(nullable = false, length = 3)
+    private String currency;
 
     public Integer getId() {
         return id;
@@ -80,14 +83,6 @@ public class ProductVariant {
         this.stock = stock;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public List<ProductVariantAttribute> getAttributes() {
         return attributes;
     }
@@ -104,6 +99,22 @@ public class ProductVariant {
         this.inventoryMovements = inventoryMovements;
     }
 
+    public Long getUnitPriceMinor() {
+        return unitPriceMinor;
+    }
+
+    public void setUnitPriceMinor(Long unitPriceMinor) {
+        this.unitPriceMinor = unitPriceMinor;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @Override
     public String toString() {
         return "ProductVariant{" +
@@ -113,7 +124,7 @@ public class ProductVariant {
                 ", movements=" + inventoryMovements +
                 ", sku='" + sku + '\'' +
                 ", stock=" + stock +
-                ", price=" + price +
+                ", unitPriceMinor=" + unitPriceMinor +
                 '}';
     }
 }

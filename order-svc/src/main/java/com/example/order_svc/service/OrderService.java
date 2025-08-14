@@ -55,7 +55,8 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDto createOrder(CreateOrderDto orderDto) {
+    public OrderResponseDto createOrder(CreateOrderDto orderDto) {
+        final String CURRENCY = "PHP";
         UserWithIdDto user = userSvcClient.getUserById(orderDto.userId());
 
         Order order = new Order();
@@ -63,22 +64,24 @@ public class OrderService {
         order.setUserFirstName(user.firstName());
         order.setUserLastName(user.lastName());
         order.setStatus(OrderStatus.PENDING);
+        order.setTotalAmountMinor(0L);
+        order.setCurrency(CURRENCY);
         Order savedOrder = orderRepo.saveAndFlush(order);
 
         orderHistoryService.createOrderHistory(savedOrder);
 
-        Double total = 0.0;
+        Long total = 0L;
         List<OrderItem> orderItems = new ArrayList<>();
         for (CreateOrderItemDto itemDto : orderDto.items()) {
             OrderItem orderItem = buildOrderItem(itemDto, savedOrder);
             orderItems.add(orderItem);
-            total += orderItem.getSubtotal();
+            total += orderItem.getSubtotalMinor();
         }
-        order.setTotalAmount(total);
+        order.setTotalAmountMinor(total);
         orderItemRepo.saveAll(orderItems);
         savedOrder.setItems(orderItems);
 
-        return OrderDto.from(savedOrder);
+        return OrderResponseDto.from(savedOrder);
     }
 
     private OrderItem buildOrderItem(CreateOrderItemDto orderItemDto, Order order) {
@@ -91,8 +94,9 @@ public class OrderService {
         orderItem.setProductVariantId(orderItemDto.productVarId());
         orderItem.setSku(product.sku());
         orderItem.setQuantity(orderItemDto.quantity());
-        orderItem.setPricePerUnit(product.price());
-        orderItem.setSubtotal(orderItemDto.quantity() * product.price());
+        orderItem.setUnitPriceMinor(product.unitPriceMinor());
+        orderItem.setCurrency(product.currency());
+        orderItem.setSubtotalMinor(orderItemDto.quantity() * product.unitPriceMinor());
         return orderItem;
     }
 
@@ -154,7 +158,7 @@ public class OrderService {
             Map<String, Object> item1 = new HashMap<>();
             item1.put("sku", item.getSku());
             item1.put("quantity", item.getQuantity());
-            item1.put("pricePerUnit", item.getPricePerUnit());
+            item1.put("pricePerUnit", item.getUnitPriceMinor());
 
             items.add(item1);
         }
@@ -165,7 +169,7 @@ public class OrderService {
                 "orderId", order.getId(),
                 "orderDate", order.getOrderDate().toString(),
                 "items", items,
-                "total", order.getTotalAmount()
+                "total", order.getTotalAmountMinor()
         );
 
         notifClient.sendEmail(new CreateNotificationDto(

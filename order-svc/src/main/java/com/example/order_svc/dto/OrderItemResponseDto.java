@@ -1,27 +1,26 @@
 package com.example.order_svc.dto;
 
 import com.example.order_svc.entity.OrderItem;
+import com.example.shared.util.MoneyUtil;
 
-public record OrderItemDto(
+public record OrderItemResponseDto(
         Long id,
         Long orderId,
         Integer productId,
         String sku,
         Integer quantity,
-        Long unitPriceMinor,
-        String currency,
-        Long subtotalMinor
+        String unitPrice,
+        String subtotal
 ) {
-    public static OrderItemDto from (OrderItem item) {
-        return new OrderItemDto(
+    public static OrderItemResponseDto from (OrderItem item) {
+        return new OrderItemResponseDto(
                 item.getId(),
                 item.getOrder().getId(),
                 item.getProductVariantId(),
                 item.getSku(),
                 item.getQuantity(),
-                item.getUnitPriceMinor(),
-                item.getCurrency(),
-                item.getSubtotalMinor()
+                MoneyUtil.format(item.getUnitPriceMinor(), item.getCurrency()),
+                MoneyUtil.format(item.getSubtotalMinor(), item.getCurrency())
         );
     }
 }

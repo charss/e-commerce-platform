@@ -66,7 +66,8 @@ public class ProductVariantService {
         ProductVariant variant = new ProductVariant();
         variant.setProduct(product);
         variant.setSku(dto.sku());
-        variant.setPrice(0.0);
+        variant.setUnitPriceMinor(dto.unitPrice());
+        variant.setCurrency(dto.currency());
         variant.setStock(0);
         return variant;
     }

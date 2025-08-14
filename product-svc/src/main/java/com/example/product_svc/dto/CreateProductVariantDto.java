@@ -11,6 +11,10 @@ public record CreateProductVariantDto(
         UUID productId,
         List<VariantAttributeDto> attributes,
         @NotBlank(message = "SKU is required")
-        String sku
+        String sku,
+        @NotNull(message = "Unit Price is required")
+        Long unitPrice,
+        @NotBlank(message = "Currency is required")
+        String currency
 ) { }
 
